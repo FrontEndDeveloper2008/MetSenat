@@ -1,17 +1,17 @@
 import React from "react";
-import {
-    Radio, Button, Tag, Row, Col, Typography, Modal, Form, Input, Select,
-} from "antd";
 import {useDispatch} from "react-redux";
-import {EditOutlined} from "@ant-design/icons";
 import {useNavigate, useSearchParams} from "react-router-dom";
 import {useSponsor} from "../../hooks/index";
-import sponsors, {editSponsor} from "../../store/slices/sponsors";
+import {editSponsor} from "../../store/slices/sponsors";
+import {
+    Button, Col, Form, Input, Modal, Radio, Row, Select, Tag, Typography,
+} from "antd";
+import {EditOutlined} from "@ant-design/icons";
 import {sponsorStatusColors, sponsorStatuses} from "../../data/sponsorsStatuses/index";
-import {Container} from "../../components/additionalComponents/container";
 import {CrudHeader} from "../../components/croodHeader/index";
+import {Container} from "../../components/additionalComponents/container";
 
-const {Title} = Typography;
+const {Option} = Select;
 
 const EditSponsorModal = () => {
     const navigate = useNavigate();
@@ -19,6 +19,7 @@ const EditSponsorModal = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const {sponsor, sponsorIndex} = useSponsor();
     const [form] = Form.useForm();
+
     const handleCancel = () => {
         setSearchParams({edit: ""});
     };
@@ -45,19 +46,21 @@ const EditSponsorModal = () => {
                 className="w-[100%] h-[50px]"
                 onChange={(e) => {
                     const newStatus = e.target.value;
-                    form.setFieldsValue({ sponsorStatus: newStatus });
+                    form.setFieldsValue({sponsorStatus: newStatus});
                 }}
             >
-                <Radio.Button value="jismoniy" className="w-[50%] h-[40px]">Jismoniy</Radio.Button>
-                <Radio.Button value="yuridik" className="w-[50%] h-[40px]">Yuridik</Radio.Button>
+                <Radio.Button value="jismoniy" className="w-[50%] h-[40px]">
+                    Jismoniy
+                </Radio.Button>
+                <Radio.Button value="yuridik" className="w-[50%] h-[40px]">
+                    Yuridik
+                </Radio.Button>
             </Radio.Group>
-
-
 
             <Form.Item
                 label="Tashrif buyuruvchining familiyasi, ismi va sharifi"
                 name="fullName"
-                rules={[{required: true, message: "Iltimos, familiya, ism va sharifni kiriting"}]}
+                rules={[{required: true, message: "Iltimos, familiya, ism va sharifni kiriting"},]}
             >
                 <Input placeholder="Familiya, ism va sharif"/>
             </Form.Item>
@@ -71,14 +74,23 @@ const EditSponsorModal = () => {
             <Form.Item
                 label="Homiyning umumiy summasi"
                 name="sponsorSum"
-                rules={[{required: true, message: "Iltimos, homiyning umumiy summasini kiriting"}]}
+                rules={[{required: true, message: "Iltimos, homiyning summasini kiriting"},]}
             >
-                <Input type="number" placeholder="Umumiy summa"/>
+                <Select placeholder="Umumiy summa">
+                    <Option value="1000000">1 000 000</Option>
+                    <Option value="2000000">2 000 000</Option>
+                    <Option value="3000000">3 000 000</Option>
+                    <Option value="5000000">5 000 000</Option>
+                    <Option value="8000000">8 000 000</Option>
+                    <Option value="10000000">10 000 000</Option>
+                </Select>
             </Form.Item>
             <Form.Item
                 label="Homiyning umumiy sariflangan summasi"
                 name="paid"
-                rules={[{required: true, message: "Iltimos, homiyning umumiy sariflangan summasini kiriting"}]}
+                rules={[{
+                    required: true, message: "Iltimos, homiyning umumiy sariflangan summasini kiriting",
+                },]}
             >
                 <Input type="number" placeholder="Umumiy sariflangan summa"/>
             </Form.Item>
@@ -108,7 +120,9 @@ export const Sponsor = () => {
         <CrudHeader
             onBack={() => navigate("/admin/sponsors")}
             title={<div className="flex items-center">
-                <Typography className="mr-2 text-xl font-bold">{sponsor?.fullName}</Typography>
+                <Typography className="mr-2 text-xl font-bold">
+                    {sponsor?.fullName}
+                </Typography>
                 <Tag color={sponsorStatusColors[sponsor?.status]}>
                     {sponsorStatuses.find((item) => item.value === sponsor?.status)?.label}
                 </Tag>
@@ -119,19 +133,28 @@ export const Sponsor = () => {
                 <Col xs={{span: 24}} md={{span: 16, offset: 4}} xl={{span: 12, offset: 6}}>
                     <div className="py-7 px-3 bg-white shadow rounded-2xl">
                         <div className="flex items-center justify-between">
-                            <Title level={5} className="m-0">Homiy haqida</Title>
-                            <Button type="primary"
-                                    onClick={() => setSearchParams({edit: true})}><EditOutlined/> Tahrirlash</Button>
+                            <Typography.Title level={5} className="m-0">
+                                Homiy haqida
+                            </Typography.Title>
+                            <Button
+                                type="primary"
+                                onClick={() => setSearchParams({edit: true})}
+                            >
+                                <EditOutlined/> Tahrirlash
+                            </Button>
                         </div>
                         <div>
-                            <Typography>Sponsor date: {sponsor?.date}</Typography>
+                            <Typography>Sponsor
+                                date: {sponsor ? new Date(sponsor.date).toLocaleString() : ""}</Typography>
                             <Typography>Sponsor Name: {sponsor?.fullName}</Typography>
                             <Typography>Telefon raqam: {sponsor?.phone}</Typography>
                             <Typography>Status: {sponsor?.status}</Typography>
-                            <Typography>Umumiy
-                                summa: {Intl.NumberFormat("ru-RU").format(sponsor?.sponsorSum)} so'm</Typography>
-                            <Typography>Sariflangan
-                                summa: {Intl.NumberFormat("ru-RU").format(sponsor?.paid)} so'm</Typography>
+                            <Typography>
+                                Umumiy summa: {Intl.NumberFormat("ru-RU").format(sponsor?.sponsorSum)} so'm
+                            </Typography>
+                            <Typography>
+                                Sariflangan summa: {Intl.NumberFormat("ru-RU").format(sponsor?.paid)} so'm
+                            </Typography>
                         </div>
                     </div>
                 </Col>

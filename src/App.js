@@ -22,7 +22,7 @@ function App() {
         if (!userActivated && location.pathname !== "/login") {
             navigate("/login");
         } else if (userActivated && location.pathname === "/login") {
-            navigate("/");
+            navigate("/admin/dashboard");
         }
     }, [userActivated, location, navigate]);
 

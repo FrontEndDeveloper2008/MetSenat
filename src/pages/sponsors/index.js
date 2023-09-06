@@ -45,7 +45,7 @@ export const Sponsors = () => {
                 dataSource={sponsors}
                 columns={columnsSponsors}
                 pagination={{
-                    pageSize: 5,
+                    pageSize: 10,
                 }}
             />
         </Container>

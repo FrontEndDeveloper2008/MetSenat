@@ -7,7 +7,6 @@ export const sponsorStatuses = [{
 }, {
     label: "Bekor qilingan", value: "BekorQilingan",
 },];
-
 export const sponsorStatusColors = {
     Yangi: "processing", Moderatsiyada: "warning", Tasdiqlangan: "success", BekorQilingan: "error",
 };
